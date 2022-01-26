@@ -1,0 +1,69 @@
+String txt;
+int format = 1080;
+float  textSize = format/6;
+PFont [] fonts = new PFont[9];
+
+PGraphics pg;
+int randFont;
+int randPastell, randColor;
+
+void setup() {
+size(1080, 1080, P2D);
+pg = createGraphics(width, height);
+txt = „Behind \nthe \nScreens“;
+fonts();
+randFont = int(random(fonts.length));
+randPastell = int(random(pastells.length));
+randColor = int(random(colors.length));
+}
+
+void draw() {
+//bwFill();
+background(colors[randColor]);
+stroke(pastells[randPastell]);
+
+if ((keyPressed==true)&&(key==‘c‘)) {
+randPastell = int(random(pastells.length));
+randColor = int(random(colors.length));
+delay(20);
+}
+pg.beginDraw();
+pg.fill(pastells[randPastell]);
+  
+//pg.fill(#DEFF5D);
+pg.pushMatrix();  
+pg.textFont(fonts[randFont]);
+pg.textSize(textSize); pg.textLeading(textSize*.8);
+pg.translate(width/2, height/3);
+pg.textAlign(CENTER);
+pg.text(txt, CENTER, CENTER);
+pg.popMatrix();
+pg.endDraw();
+
+int tilesX = format/10;
+int tilesY = format/40;
+
+int tileW = int(width/tilesX);
+int tileH = int(height/tilesY);
+
+for (int y = 0; y < tilesY; y++) {
+   for (int x = 0; x < tilesX; x++) {
+
+// int wave = int(sin(frameCount*0.05 + (x*y)*.01)*100);
+int wave2 = int(cos(frameCount*0.05 + (x*y)*.01)*100);
+
+int sx = x*tileW; //+wave;
+int sy = y*tileH+wave2;
+int sw = tileW;
+int sh = tileH;
+
+int dx = x*tileW;
+int dy = y*tileH;
+int dw = tileW;
+int dh = tileH;
+
+copy(pg, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
+  }
+  //image(pg, 0, 0);
+}
